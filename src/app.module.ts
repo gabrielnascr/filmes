@@ -8,7 +8,6 @@ import { Admin } from './admin/admin.entity';
 import { Movie } from './movie/movie.entity';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
