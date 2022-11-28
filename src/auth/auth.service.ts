@@ -22,7 +22,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async authenticacte({ email, password }: AuthenticateDTO) {
+  async authenticate({ email, password }: AuthenticateDTO) {
     const userData = await this.validateUser(email, password);
 
     const jwtPayload: JWTPayload = {

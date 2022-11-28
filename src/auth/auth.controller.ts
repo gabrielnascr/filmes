@@ -6,6 +6,8 @@ import {
   Post,
   Req,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthenticateDTO } from './dto/authenticate-dto';
@@ -24,10 +26,11 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @Post('login')
   async authenticate(@Body() authenticateDTO: AuthenticateDTO) {
-    return this.authService.authenticacte(authenticateDTO);
+    return this.authService.authenticate(authenticateDTO);
   }
 
   @Post('signup')
+  @UsePipes(ValidationPipe)
   async signup(@Body() signUpDTO: SignUpDTO) {
     return this.adminService.add(signUpDTO);
   }
