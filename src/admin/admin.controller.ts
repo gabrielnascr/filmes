@@ -19,7 +19,6 @@ import { AddAdminDTO } from './dto/add-admin.dto';
 import { UpdateAdminDTO } from './dto/update-admin.dto';
 
 @Controller('admin')
-@UseGuards(AuthGuard('jwt'))
 export class AdminController {
   constructor(
     @InjectRepository(Admin) private adminRepository: Repository<Admin>,
@@ -27,6 +26,7 @@ export class AdminController {
   ) {}
 
   @Post()
+  @UseGuards(AuthGuard('jwt'))
   @UsePipes(ValidationPipe)
   async add(@Body() addAdminDTO: AddAdminDTO) {
     const { name, email, password } = addAdminDTO;
@@ -55,6 +55,7 @@ export class AdminController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt'))
   async delete(@Param('id') id): Promise<void> {
     await this.adminRepository.delete(id);
   }

@@ -22,7 +22,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { CreateMovieDTO } from './dto/create-movie.dto';
 
 @Controller('movie')
-@UseGuards(AuthGuard('jwt'))
 export class MovieController {
   constructor(
     @InjectRepository(Movie) private movieRepository: Repository<Movie>,
@@ -50,6 +49,7 @@ export class MovieController {
 
   @Post()
   @UsePipes(ValidationPipe)
+  @UseGuards(AuthGuard('jwt'))
   async store(@Body() movieCreateDTO: CreateMovieDTO, @Request() req) {
     return this.movieService.store(req.user.sub, movieCreateDTO);
   }
@@ -64,6 +64,7 @@ export class MovieController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt'))
   async delete(@Param('id') id: number) {
     return this.movieService.delete(id);
   }
