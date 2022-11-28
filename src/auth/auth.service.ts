@@ -30,6 +30,10 @@ export class AuthService {
       sub: userData.id,
     };
 
+    await this.adminService.update(userData.id, {
+      lastLoginDate: new Date().toDateString(),
+    });
+
     return {
       token: this.jwtService.sign(jwtPayload),
       loggedUser: userData,

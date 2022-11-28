@@ -6,9 +6,13 @@ import { AdminModule } from './admin/admin.module';
 import { MovieModule } from './movie/movie.module';
 import { Admin } from './admin/admin.entity';
 import { Movie } from './movie/movie.entity';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'filmesDB.sqlite',
@@ -17,6 +21,7 @@ import { Movie } from './movie/movie.entity';
     }),
     AdminModule,
     MovieModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

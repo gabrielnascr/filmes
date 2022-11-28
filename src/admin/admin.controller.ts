@@ -1,11 +1,27 @@
-import { Controller, Delete, Get, Param, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+  Request,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Request } from 'express';
 import { Repository } from 'typeorm';
 import { Admin } from './admin.entity';
 import { AdminService } from './admin.service';
+import { AddAdminDTO } from './dto/add-admin.dto';
+import { UpdateAdminDTO } from './dto/update-admin.dto';
 
 @Controller('admin')
+@UseGuards(AuthGuard('jwt'))
 export class AdminController {
   constructor(
     @InjectRepository(Admin) private adminRepository: Repository<Admin>,
@@ -13,11 +29,14 @@ export class AdminController {
   ) {}
 
   @Post()
-  async add(@Req() request: Request) {
+  @UsePipes(ValidationPipe)
+  async add(@Body() addAdminDTO: AddAdminDTO) {
+    const { name, email, password } = addAdminDTO;
+
     return this.adminService.add({
-      name: request.body['name'],
-      email: request.body['email'],
-      password: request.body['password'],
+      name,
+      email,
+      password,
       role: 1,
     });
   }
@@ -28,12 +47,17 @@ export class AdminController {
   }
 
   @Get(':id')
-  findOne(id: any): Promise<Admin> {
-    return this.adminService.EncontrarUm(id);
+  findOneById(id: any): Promise<Admin> {
+    return this.adminService.findOneById(id);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: number, @Body() updateAdminDTO: UpdateAdminDTO) {
+    return this.adminService.update(id, updateAdminDTO);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id): Promise<void> {
-    await this.adminRepository.remove(id);
+  async delete(@Param('id') id): Promise<void> {
+    await this.adminRepository.delete(id);
   }
 }

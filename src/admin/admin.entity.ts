@@ -23,6 +23,11 @@ export class Admin {
   @Column()
   role: number;
 
+  @Column({
+    nullable: true,
+  })
+  lastLoginDate: Date;
+
   @CreateDateColumn()
   createdAt: string;
 
