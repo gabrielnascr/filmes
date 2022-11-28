@@ -53,10 +53,7 @@ export class AdminService {
     const adminExists = await this.adminRepository.findOneBy({ id });
 
     if (!adminExists) {
-      throw new HttpException(
-        'This administrator does not exist in our data',
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException(ErrorMessages.NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
     await this.adminRepository.update({ id }, updateAdminDTO);
