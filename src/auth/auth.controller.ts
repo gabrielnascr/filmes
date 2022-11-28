@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 import { AuthenticateDTO } from './dto/authenticate-dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AdminService } from 'src/admin/admin.service';
+import { SignUpDTO } from './dto/signup-dto';
 
 @Injectable()
 @Controller('auth')
@@ -24,6 +25,11 @@ export class AuthController {
   @Post('login')
   async authenticate(@Body() authenticateDTO: AuthenticateDTO) {
     return this.authService.authenticacte(authenticateDTO);
+  }
+
+  @Post('signup')
+  async signup(@Body() signUpDTO: SignUpDTO) {
+    return this.adminService.add(signUpDTO);
   }
 
   @Get('profile')
