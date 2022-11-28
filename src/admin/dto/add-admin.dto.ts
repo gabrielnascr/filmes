@@ -16,4 +16,8 @@ export class AddAdminDTO {
 
   @IsNotEmpty()
   password: string;
+
+  @IsNumber()
+  @IsOptional()
+  role?: number;
 }
