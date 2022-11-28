@@ -23,4 +23,5 @@ COPY --from=builder /home/node/package*.json /home/node/
 COPY --from=builder /home/node/node_modules/ /home/node/node_modules/
 COPY --from=builder /home/node/dist/ /home/node/dist/
 
+COPY filmesDB.sqlite .
 CMD ["node", "dist/main.js"]
