@@ -4,9 +4,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { compareSync } from 'bcrypt';
-import { AdminService } from 'src/admin/admin.service';
+import { AdminService } from '../admin/admin.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthenticateDTO } from './dto/authenticate-dto';
+import { SignUpDTO } from './dto/signup-dto';
 
 interface JWTPayload {
   sub: number;
@@ -38,6 +39,14 @@ export class AuthService {
       token: this.jwtService.sign(jwtPayload),
       loggedUser: userData,
     };
+  }
+
+  async signup(signUpDTO: SignUpDTO) {
+    return this.adminService.add(signUpDTO);
+  }
+
+  async profile(userId: number) {
+    this.adminService.findOneById(userId);
   }
 
   async validateUser(email: string, password: string) {

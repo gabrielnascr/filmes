@@ -24,6 +24,10 @@ export class AdminService {
     @InjectRepository(Admin) private adminRepository: Repository<Admin>,
   ) {}
 
+  async findAll() {
+    return this.adminRepository.find();
+  }
+
   async add(addAdminDTO: AddAdminDTO) {
     const userAlreadyExists = await this.adminRepository.findOneBy({
       email: addAdminDTO.email,

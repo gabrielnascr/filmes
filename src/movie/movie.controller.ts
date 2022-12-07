@@ -23,10 +23,7 @@ import { CreateMovieDTO } from './dto/create-movie.dto';
 
 @Controller('movie')
 export class MovieController {
-  constructor(
-    @InjectRepository(Movie) private movieRepository: Repository<Movie>,
-    private readonly movieService: MovieService,
-  ) {}
+  constructor(private readonly movieService: MovieService) {}
 
   @Get()
   async findAll(@Query('search') search: string) {

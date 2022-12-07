@@ -11,8 +11,6 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { Admin } from './admin.entity';
 import { AdminService } from './admin.service';
 import { AddAdminDTO } from './dto/add-admin.dto';
@@ -20,10 +18,7 @@ import { UpdateAdminDTO } from './dto/update-admin.dto';
 
 @Controller('admin')
 export class AdminController {
-  constructor(
-    @InjectRepository(Admin) private adminRepository: Repository<Admin>,
-    private adminService: AdminService,
-  ) {}
+  constructor(private adminService: AdminService) {}
 
   @Post()
   @UseGuards(AuthGuard('jwt'))
@@ -41,7 +36,7 @@ export class AdminController {
 
   @Get()
   findAll(): Promise<Admin[]> {
-    return this.adminRepository.find();
+    return this.adminService.findAll();
   }
 
   @Get(':id')
@@ -57,6 +52,6 @@ export class AdminController {
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   async delete(@Param('id') id): Promise<void> {
-    await this.adminRepository.delete(id);
+    await this.adminService.remove(id);
   }
 }
